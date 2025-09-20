@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks - Urban Gardening</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="mobile-nav-fix.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyBxuUuIabTyxNP5I75nrwpzyBhpa9v1qYg",
+            authDomain: "urban-garden-afb64.firebaseapp.com",
+            projectId: "urban-garden-afb64",
+            storageBucket: "urban-garden-afb64.firebasestorage.app",
+            messagingSenderId: "551109183538",
+            appId: "1:551109183538:web:e05fad7a5acf96b9b7142b"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        window.auth = getAuth(app);
+        window.db = getFirestore(app);
+        
+        window.auth.onAuthStateChanged((user) => {
+            if (!user) window.location.href = 'login.html';
+        });
+    </script>
+    <style>
+        .tasks-container { max-width: 800px; margin: 0 auto; padding: 2rem; }
+        .tasks-header { text-align: center; margin-bottom: 2rem; }
+        .tasks-header h1 { color: #1f2937; margin-bottom: 0.5rem; }
+        .add-task-btn { 
+            background: linear-gradient(135deg, #48bb78, #68d391); 
+            color: white; 
+            border: none; 
+            padding: 0.75rem 1.5rem; 
+            border-radius: 2rem; 
+            font-weight: 600; 
+            cursor: pointer; 
+            margin-bottom: 2rem;
+        }
+        .task-list { display: flex; flex-direction: column; gap: 1rem; }
+        .task-item { 
+            background: white; 
+            border: 2px solid #e5e7eb; 
+            border-radius: 1rem; 
+            padding: 1rem; 
+            display: flex; 
+            align-items: center; 
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+        .task-item.completed { 
+            background: #f0fdf4; 
+            border-color: #48bb78; 
+            opacity: 0.7;
+        }
+        .task-checkbox { 
+            width: 24px; 
+            height: 24px; 
+            border: 2px solid #d1d5db; 
+            border-radius: 50%; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .task-checkbox.checked { 
+            background: #48bb78; 
+            border-color: #48bb78; 
+            color: white;
+        }
+        .task-content { flex: 1; }
+        .task-title { font-weight: 600; color: #1f2937; margin-bottom: 0.25rem; }
+        .task-plant { font-size: 0.9rem; color: #6b7280; }
+        .task-due { font-size: 0.8rem; color: #ef4444; font-weight: 600; }
+        .task-category { 
+            padding: 0.25rem 0.75rem; 
+            border-radius: 1rem; 
+            font-size: 0.8rem; 
+            font-weight: 600;
+        }
+        .category-watering { background: #dbeafe; color: #1e40af; }
+        .category-fertilizing { background: #dcfce7; color: #166534; }
+        .category-pruning { background: #fef3c7; color: #92400e; }
+        .category-repotting { background: #f3e8ff; color: #7c2d12; }
+        .empty-state { 
+            text-align: center; 
+            padding: 3rem; 
+            color: #6b7280;
+        }
+        .empty-state i { font-size: 3rem; margin-bottom: 1rem; }
+        .task-modal { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            bottom: 0; 
+            background: rgba(0,0,0,0.5); 
+            display: none; 
+            align-items: center; 
+            justify-content: center; 
+            z-index: 1000;
+        }
+        .task-modal.active { display: flex; }
+        .modal-content { 
+            background: white; 
+            padding: 2rem; 
+            border-radius: 1rem; 
+            width: 90%; 
+            max-width: 400px;
+        }
+        .form-group { margin-bottom: 1rem; }
+        .form-label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+        .form-input, .form-select { 
+            width: 100%; 
+            padding: 0.75rem; 
+            border: 2px solid #e5e7eb; 
+            border-radius: 0.5rem; 
+            box-sizing: border-box;
+        }
+        .btn-primary { 
+            background: #48bb78; 
+            color: white; 
+            border: none; 
+            padding: 0.75rem 1.5rem; 
+            border-radius: 0.5rem; 
+            cursor: pointer; 
+            width: 100%;
+        }
+        .btn-secondary { 
+            background: #6b7280; 
+            color: white; 
+            border: none; 
+            padding: 0.75rem 1.5rem; 
+            border-radius: 0.5rem; 
+            cursor: pointer; 
+            width: 100%; 
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Desktop Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>🌱 Garden</h2>
+            </div>
+            <ul class="sidebar-nav">
+                <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="library.html" class="nav-link"><i class="fas fa-leaf"></i> Plant Library</a></li>
+                <li><a href="garden.html" class="nav-link"><i class="fas fa-seedling"></i> My Garden</a></li>
+                <li><a href="tasks.html" class="nav-link active"><i class="fas fa-tasks"></i> Tasks</a></li>
+                <li><a href="community.html" class="nav-link"><i class="fas fa-users"></i> Community</a></li>
+                <li><a href="journal.html" class="nav-link"><i class="fas fa-book"></i> Journal</a></li>
+                <li><a href="profile.html" class="nav-link"><i class="fas fa-user"></i> Profile</a></li>
+                <li><a href="#" onclick="logout()" class="nav-link"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="tasks-container">
+                <div class="tasks-header">
+                    <h1>📋 My Garden Tasks</h1>
+                    <p>Care tasks automatically generated from your garden plants</p>
+                </div>
+
+                <div class="task-list" id="taskList">
+                    <div class="empty-state" id="emptyState">
+                        <i class="fas fa-clipboard-list"></i>
+                        <h3>No tasks yet</h3>
+                        <p>Add your first garden task to get started!</p>
+                    </div>
+                </div>
+            </div>
+
+
+        </main>
+
+        <!-- Mobile Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="library.html" class="nav-item">
+                <i class="fas fa-leaf"></i>
+                <span>Library</span>
+            </a>
+            <a href="garden.html" class="nav-item">
+                <i class="fas fa-seedling"></i>
+                <span>Garden</span>
+            </a>
+            <a href="tasks.html" class="nav-item active">
+                <i class="fas fa-tasks"></i>
+                <span>Tasks</span>
+            </a>
+            <a href="community.html" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Community</span>
+            </a>
+            <a href="journal.html" class="nav-item">
+                <i class="fas fa-book"></i>
+                <span>Journal</span>
+            </a>
+            <a href="profile.html" class="nav-item">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </a>
+        </nav>
+
+        <!-- Floating Action Button -->
+        <button class="fab">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="tasks-new.js"></script>
+</body>
+</html>

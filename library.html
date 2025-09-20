@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plant Library - Urban Gardening</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="library.css" />
+    <link rel="stylesheet" href="mobile-nav-fix.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="app-container">
+      <!-- Desktop Sidebar -->
+      <nav class="sidebar">
+        <div class="sidebar-header">
+          <h2>🌱 Garden</h2>
+        </div>
+        <ul class="sidebar-nav">
+          <li>
+            <a href="index.html" class="nav-link"
+              ><i class="fas fa-home"></i> Dashboard</a
+            >
+          </li>
+          <li>
+            <a href="library.html" class="nav-link active"
+              ><i class="fas fa-leaf"></i> Plant Library</a
+            >
+          </li>
+          <li>
+            <a href="garden.html" class="nav-link"
+              ><i class="fas fa-seedling"></i> My Garden</a
+            >
+          </li>
+          <li>
+            <a href="tasks.html" class="nav-link"
+              ><i class="fas fa-tasks"></i> Tasks</a
+            >
+          </li>
+          <li>
+            <a href="community.html" class="nav-link"
+              ><i class="fas fa-users"></i> Community</a
+            >
+          </li>
+          <li>
+            <a href="seasonal.html" class="nav-link"
+              ><i class="fas fa-calendar-alt"></i> Seasonal Tips</a
+            >
+          </li>
+          <li>
+            <a href="journal.html" class="nav-link"
+              ><i class="fas fa-book"></i> Journal</a
+            >
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <div class="library-header">
+          <h1>🌿 Plant Library</h1>
+          <div class="search-container">
+            <div class="search-box">
+              <i class="fas fa-search"></i>
+              <input
+                type="text"
+                placeholder="Search plants..."
+                id="searchInput"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="plant-grid" id="plantGrid">
+          <!-- Plant cards will be generated here -->
+        </div>
+
+        <!-- Plant Detail Modal -->
+        <div class="plant-modal" id="plantModal">
+          <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <div class="modal-body" id="modalBody">
+              <!-- Plant details will be loaded here -->
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Mobile Bottom Navigation -->
+      <nav class="bottom-nav">
+        <a href="index.html" class="nav-item">
+          <i class="fas fa-home"></i>
+          <span>Home</span>
+        </a>
+        <a href="library.html" class="nav-item active">
+          <i class="fas fa-leaf"></i>
+          <span>Library</span>
+        </a>
+        <a href="garden.html" class="nav-item">
+          <i class="fas fa-seedling"></i>
+          <span>Garden</span>
+        </a>
+        <a href="tasks.html" class="nav-item">
+          <i class="fas fa-tasks"></i>
+          <span>Tasks</span>
+        </a>
+        <a href="community.html" class="nav-item">
+          <i class="fas fa-users"></i>
+          <span>Community</span>
+        </a>
+        <a href="journal.html" class="nav-item">
+          <i class="fas fa-book"></i>
+          <span>Journal</span>
+        </a>
+        <a href="seasonal.html" class="nav-item">
+          <i class="fas fa-calendar-alt"></i>
+          <span>Seasonal</span>
+        </a>
+      </nav>
+
+      <!-- Floating Action Button -->
+      <button class="fab">
+        <i class="fas fa-plus"></i>
+      </button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="library.js"></script>
+  </body>
+</html>

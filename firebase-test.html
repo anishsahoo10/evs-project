@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
+        .success { background: #d4edda; border-color: #c3e6cb; }
+        .error { background: #f8d7da; border-color: #f5c6cb; }
+        button { padding: 10px 15px; margin: 5px; border: none; border-radius: 5px; cursor: pointer; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        input { padding: 8px; margin: 5px; border: 1px solid #ddd; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>🔥 Firebase Connection Test</h1>
+    
+    <div class="test-section" id="connectionStatus">
+        <h3>Connection Status</h3>
+        <p id="statusText">Testing Firebase connection...</p>
+    </div>
+
+    <div class="test-section">
+        <h3>🔐 Authentication Test</h3>
+        <input type="email" id="email" placeholder="test@example.com" value="test@example.com">
+        <input type="password" id="password" placeholder="password123" value="password123">
+        <br>
+        <button class="btn-primary" onclick="createUser()">Create User</button>
+        <button class="btn-success" onclick="loginUser()">Login</button>
+        <button onclick="logoutUser()">Logout</button>
+        <p id="authResult"></p>
+    </div>
+
+    <div class="test-section">
+        <h3>📊 Firestore Test</h3>
+        <button class="btn-primary" onclick="addTestData()">Add Test Data</button>
+        <button class="btn-success" onclick="readTestData()">Read Data</button>
+        <p id="firestoreResult"></p>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBxuUuIabTyxNP5I75nrwpzyBhpa9v1qYg",
+            authDomain: "urban-garden-afb64.firebaseapp.com",
+            projectId: "urban-garden-afb64",
+            storageBucket: "urban-garden-afb64.firebasestorage.app",
+            messagingSenderId: "551109183538",
+            appId: "1:551109183538:web:e05fad7a5acf96b9b7142b"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Test connection
+        document.getElementById('statusText').innerHTML = '✅ Firebase connected successfully!';
+        document.getElementById('connectionStatus').className = 'test-section success';
+
+        // Make functions global
+        window.createUser = async () => {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            try {
+                await createUserWithEmailAndPassword(auth, email, password);
+                document.getElementById('authResult').innerHTML = '✅ User created successfully!';
+            } catch (error) {
+                document.getElementById('authResult').innerHTML = '❌ Error: ' + error.message;
+            }
+        };
+
+        window.loginUser = async () => {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                document.getElementById('authResult').innerHTML = '✅ Login successful!';
+            } catch (error) {
+                document.getElementById('authResult').innerHTML = '❌ Error: ' + error.message;
+            }
+        };
+
+        window.logoutUser = async () => {
+            try {
+                await signOut(auth);
+                document.getElementById('authResult').innerHTML = '✅ Logged out successfully!';
+            } catch (error) {
+                document.getElementById('authResult').innerHTML = '❌ Error: ' + error.message;
+            }
+        };
+
+        window.addTestData = async () => {
+            try {
+                await addDoc(collection(db, "test"), {
+                    message: "Hello Firebase!",
+                    timestamp: new Date()
+                });
+                document.getElementById('firestoreResult').innerHTML = '✅ Data added to Firestore!';
+            } catch (error) {
+                document.getElementById('firestoreResult').innerHTML = '❌ Error: ' + error.message;
+            }
+        };
+
+        window.readTestData = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, "test"));
+                let data = [];
+                querySnapshot.forEach((doc) => {
+                    data.push(doc.data());
+                });
+                document.getElementById('firestoreResult').innerHTML = '✅ Data read: ' + JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('firestoreResult').innerHTML = '❌ Error: ' + error.message;
+            }
+        };
+    </script>
+</body>
+</html>
