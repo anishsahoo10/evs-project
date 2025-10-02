@@ -1,0 +1,275 @@
+/* AI Smart Tasks Styles */
+
+.loading-tasks, .error-tasks {
+  text-align: center;
+  padding: 40px 20px;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.ai-tasks-placeholder {
+  text-align: center;
+  padding: 30px 20px;
+  color: #6b7280;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 2px dashed #d1d5db;
+}
+
+.smart-tasks-header {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.smart-tasks-header h3 {
+  color: #1f2937;
+  margin-bottom: 8px;
+}
+
+.tasks-summary {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.smart-tasks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.smart-task-item {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.smart-task-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.smart-task-item[data-priority="high"] {
+  border-left: 4px solid #ef4444;
+}
+
+.smart-task-item[data-priority="medium"] {
+  border-left: 4px solid #f59e0b;
+}
+
+.smart-task-item[data-priority="low"] {
+  border-left: 4px solid #10b981;
+}
+
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.task-priority {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 12px;
+  text-transform: uppercase;
+}
+
+.task-priority.high {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.task-priority.medium {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.task-priority.low {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.task-timing {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.task-time, .task-duration {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.task-content {
+  margin-bottom: 16px;
+}
+
+.task-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 6px;
+}
+
+.task-reason {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.task-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.task-actions .btn {
+  font-size: 12px;
+  padding: 6px 12px;
+}
+
+.ai-tasks-text {
+  background: #f8fafc;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 16px;
+  line-height: 1.6;
+  color: #374151;
+}
+
+/* Weather-aware task indicators */
+.weather-task {
+  position: relative;
+}
+
+.weather-task::before {
+  content: '🌤️';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 16px;
+}
+
+.weather-task.rain::before {
+  content: '🌧️';
+}
+
+.weather-task.hot::before {
+  content: '☀️';
+}
+
+.weather-task.cold::before {
+  content: '❄️';
+}
+
+/* Task generation button */
+.generate-tasks-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.generate-tasks-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.generate-tasks-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Intelligent scheduling indicators */
+.optimal-time {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.weather-delay {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* Plant-specific intervals */
+.plant-interval {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.interval-badge {
+  background: #e5e7eb;
+  color: #374151;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .task-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .task-timing {
+    align-self: flex-end;
+  }
+  
+  .task-actions {
+    justify-content: stretch;
+  }
+  
+  .task-actions .btn {
+    flex: 1;
+  }
+  
+  .ai-tasks-placeholder {
+    padding: 20px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .smart-task-item {
+    padding: 12px;
+  }
+  
+  .task-actions {
+    flex-direction: column;
+  }
+  
+  .generate-tasks-btn {
+    font-size: 14px;
+    padding: 14px;
+  }
+}

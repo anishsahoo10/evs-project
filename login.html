@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Urban Garden</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .login-container { 
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            background: linear-gradient(135deg, #48bb78, #68d391);
+            padding: 1rem;
+        }
+        .login-card { 
+            background: white; 
+            padding: 2rem; 
+            border-radius: 2rem; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1); 
+            width: 100%; 
+            max-width: 400px;
+        }
+        .login-header { text-align: center; margin-bottom: 2rem; }
+        .login-header h1 { color: #48bb78; margin: 0; font-size: 2rem; }
+        .login-header .icon { font-size: 3rem; margin-bottom: 1rem; }
+        .form-group { margin-bottom: 1.5rem; position: relative; }
+        .form-input { 
+            width: 100%; 
+            padding: 1rem 1rem 1rem 3rem; 
+            border: 2px solid #e2e8f0; 
+            border-radius: 1rem; 
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        .form-input:focus { border-color: #48bb78; outline: none; }
+        .input-icon { 
+            position: absolute; 
+            left: 1rem; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            color: #68d391;
+        }
+        .btn-login { 
+            width: 100%; 
+            padding: 1rem; 
+            background: linear-gradient(135deg, #48bb78, #68d391); 
+            color: white; 
+            border: none; 
+            border-radius: 1rem; 
+            font-size: 1rem; 
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        .btn-login:hover { transform: translateY(-2px); }
+        .toggle-link { text-align: center; margin-top: 1rem; color: #48bb78; cursor: pointer; }
+        .toggle-link span { text-decoration: underline; font-weight: 600; }
+        @media (max-width: 768px) {
+            .login-card { padding: 1.5rem; margin: 1rem; }
+            .login-header h1 { font-size: 1.5rem; }
+            .login-header .icon { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="icon">🌱</div>
+                <h1>Urban Garden</h1>
+                <p id="formTitle">Welcome Back!</p>
+            </div>
+            
+            <form id="authForm">
+                <div class="form-group">
+                    <i class="fas fa-envelope input-icon"></i>
+                    <input type="email" id="email" class="form-input" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <i class="fas fa-lock input-icon"></i>
+                    <input type="password" id="password" class="form-input" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn-login" id="submitBtn">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </form>
+            
+            <div class="toggle-link" id="toggleLink">
+                Don't have an account? <span onclick="toggleForm()">Sign up</span>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBxuUuIabTyxNP5I75nrwpzyBhpa9v1qYg",
+            authDomain: "urban-garden-afb64.firebaseapp.com",
+            projectId: "urban-garden-afb64",
+            storageBucket: "urban-garden-afb64.firebasestorage.app",
+            messagingSenderId: "551109183538",
+            appId: "1:551109183538:web:e05fad7a5acf96b9b7142b"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        let isLogin = true;
+
+        window.toggleForm = () => {
+            isLogin = !isLogin;
+            document.getElementById('formTitle').textContent = isLogin ? 'Welcome Back!' : 'Create Account';
+            document.getElementById('submitBtn').innerHTML = isLogin ? 
+                '<i class="fas fa-sign-in-alt"></i> Login' : 
+                '<i class="fas fa-user-plus"></i> Sign Up';
+            document.getElementById('toggleLink').innerHTML = isLogin ? 
+                "Don't have an account? <span onclick='toggleForm()'>Sign up</span>" :
+                "Already have an account? <span onclick='toggleForm()'>Login</span>";
+        };
+
+        document.getElementById('authForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                if (isLogin) {
+                    await signInWithEmailAndPassword(auth, email, password);
+                    window.location.href = 'index.html';
+                } else {
+                    await createUserWithEmailAndPassword(auth, email, password);
+                    window.location.href = 'onboarding.html';
+                }
+            } catch (error) {
+                alert(error.message);
+            }
+        });
+    </script>
+</body>
+</html>

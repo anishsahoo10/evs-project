@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seasonal Tips - Urban Gardening</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="seasonal.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Desktop Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>🌱 Garden</h2>
+            </div>
+            <ul class="sidebar-nav">
+                <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="library.html" class="nav-link"><i class="fas fa-leaf"></i> Plant Library</a></li>
+                <li><a href="garden.html" class="nav-link"><i class="fas fa-seedling"></i> My Garden</a></li>
+                <li><a href="tasks.html" class="nav-link"><i class="fas fa-tasks"></i> Tasks</a></li>
+                <li><a href="community.html" class="nav-link"><i class="fas fa-users"></i> Community</a></li>
+                <li><a href="seasonal.html" class="nav-link active"><i class="fas fa-calendar-alt"></i> Seasonal Tips</a></li>
+                <li><a href="journal.html" class="nav-link"><i class="fas fa-book"></i> Journal</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="seasonal-header">
+                <h1>🍂 Seasonal Tips</h1>
+                <div class="season-selector">
+                    <button class="season-btn active" data-season="autumn">🍂 Autumn</button>
+                    <button class="season-btn" data-season="winter">❄️ Winter</button>
+                    <button class="season-btn" data-season="spring">🌸 Spring</button>
+                    <button class="season-btn" data-season="summer">☀️ Summer</button>
+                </div>
+            </div>
+
+            <!-- Tips Carousel -->
+            <div class="tips-carousel-container">
+                <div class="tips-carousel" id="tipsCarousel">
+                    <!-- Tip cards will be populated here -->
+                </div>
+                <div class="carousel-controls">
+                    <button class="carousel-btn prev" id="prevBtn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <div class="carousel-dots" id="carouselDots">
+                        <!-- Dots will be populated here -->
+                    </div>
+                    <button class="carousel-btn next" id="nextBtn">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Plant Suggestions -->
+            <div class="plant-suggestions" id="plantSuggestions">
+                <h2>🌱 Recommended Plants</h2>
+                <div class="suggestions-grid" id="suggestionsGrid">
+                    <div class="suggestion-card">
+                        <span class="suggestion-icon">🥬</span>
+                        <div class="suggestion-name">Lettuce</div>
+                        <div class="suggestion-reason">Cool weather crop</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Mobile Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="library.html" class="nav-item">
+                <i class="fas fa-leaf"></i>
+                <span>Library</span>
+            </a>
+            <a href="garden.html" class="nav-item">
+                <i class="fas fa-seedling"></i>
+                <span>Garden</span>
+            </a>
+            <a href="tasks.html" class="nav-item">
+                <i class="fas fa-tasks"></i>
+                <span>Tasks</span>
+            </a>
+            <a href="community.html" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Community</span>
+            </a>
+            <a href="journal.html" class="nav-item">
+                <i class="fas fa-book"></i>
+                <span>Journal</span>
+            </a>
+        </nav>
+
+        <!-- Floating Action Button -->
+        <button class="fab">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="seasonal-complete.js"></script>
+</body>
+</html>

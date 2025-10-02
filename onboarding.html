@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Urban Gardening</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="onboarding.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyBxuUuIabTyxNP5I75nrwpzyBhpa9v1qYg",
+            authDomain: "urban-garden-afb64.firebaseapp.com",
+            projectId: "urban-garden-afb64",
+            storageBucket: "urban-garden-afb64.firebasestorage.app",
+            messagingSenderId: "551109183538",
+            appId: "1:551109183538:web:e05fad7a5acf96b9b7142b"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        window.auth = getAuth(app);
+        
+        window.auth.onAuthStateChanged((user) => {
+            if (!user) window.location.href = 'login.html';
+        });
+    </script>
+</head>
+<body>
+    <div class="onboarding-container">
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <span class="progress-text">1 of 4</span>
+        </div>
+
+        <!-- Onboarding Cards -->
+        <div class="onboarding-carousel">
+            <!-- Step 1: Welcome -->
+            <div class="onboarding-card active" data-step="1">
+                <div class="card-visual">
+                    <div class="plant-icon">🌱</div>
+                    <div class="floating-leaves">
+                        <span>🍃</span>
+                        <span>🌿</span>
+                        <span>🍀</span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <h1>Welcome to Your Urban Garden!</h1>
+                    <p>Transform any space into a thriving green paradise. Let's get started on your gardening journey!</p>
+                </div>
+            </div>
+
+            <!-- Step 2: Space Type -->
+            <div class="onboarding-card" data-step="2">
+                <div class="card-visual">
+                    <div class="space-options">
+                        <div class="space-option" data-space="balcony">
+                            <div class="space-icon">🏢</div>
+                            <span>Balcony</span>
+                        </div>
+                        <div class="space-option" data-space="rooftop">
+                            <div class="space-icon">🏠</div>
+                            <span>Rooftop</span>
+                        </div>
+                        <div class="space-option" data-space="indoor">
+                            <div class="space-icon">🏡</div>
+                            <span>Indoor</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <h1>What's Your Garden Space?</h1>
+                    <p>Choose your gardening environment so we can give you the best plant recommendations.</p>
+                </div>
+            </div>
+
+            <!-- Step 3: Experience Level -->
+            <div class="onboarding-card" data-step="3">
+                <div class="card-visual">
+                    <div class="experience-options">
+                        <div class="exp-option" data-level="beginner">
+                            <div class="exp-icon">🌱</div>
+                            <span>Beginner</span>
+                        </div>
+                        <div class="exp-option" data-level="intermediate">
+                            <div class="exp-icon">🌿</div>
+                            <span>Intermediate</span>
+                        </div>
+                        <div class="exp-option" data-level="expert">
+                            <div class="exp-icon">🌳</div>
+                            <span>Expert</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <h1>Your Gardening Experience?</h1>
+                    <p>Help us tailor the perfect plant suggestions and care tips for your skill level.</p>
+                </div>
+            </div>
+
+            <!-- Step 4: Ready -->
+            <div class="onboarding-card" data-step="4">
+                <div class="card-visual">
+                    <div class="celebration">
+                        <div class="trophy">🏆</div>
+                        <div class="confetti">
+                            <span>🎉</span>
+                            <span>✨</span>
+                            <span>🌟</span>
+                            <span>🎊</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <h1>You're All Set!</h1>
+                    <p>Ready to start your urban gardening adventure? Let's grow something amazing together!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="onboarding-nav">
+            <button class="btn-secondary" id="skipBtn">Skip</button>
+            <button class="btn-primary" id="nextBtn">Next</button>
+            <button class="btn-primary hidden" id="startBtn">Start Gardening!</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="onboarding.js"></script>
+</body>
+</html>

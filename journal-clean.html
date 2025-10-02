@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journal - Urban Gardening</title>
+    <link rel="stylesheet" href="clean-styles.css">
+    <link rel="stylesheet" href="journal.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+        import { getStorage } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-storage.js";
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyBxuUuIabTyxNP5I75nrwpzyBhpa9v1qYg",
+            authDomain: "urban-garden-afb64.firebaseapp.com",
+            projectId: "urban-garden-afb64",
+            storageBucket: "urban-garden-afb64.firebasestorage.app",
+            messagingSenderId: "551109183538",
+            appId: "1:551109183538:web:e05fad7a5acf96b9b7142b"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        window.auth = getAuth(app);
+        window.db = getFirestore(app);
+        window.storage = getStorage(app);
+        
+        window.auth.onAuthStateChanged((user) => {
+            if (!user) window.location.href = 'login.html';
+        });
+    </script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Desktop Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>🌱 Urban Garden</h2>
+            </div>
+            
+            <ul class="sidebar-nav">
+                <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="library.html" class="nav-link"><i class="fas fa-leaf"></i> Plant Library</a></li>
+                <li><a href="garden.html" class="nav-link"><i class="fas fa-seedling"></i> My Garden</a></li>
+                <li><a href="tasks.html" class="nav-link"><i class="fas fa-tasks"></i> Tasks</a></li>
+                <li><a href="community.html" class="nav-link"><i class="fas fa-users"></i> Community</a></li>
+                <li><a href="journal.html" class="nav-link active"><i class="fas fa-book"></i> Journal</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1>📖 Garden Journal</h1>
+                <p>Document your gardening journey and earn green points</p>
+            </div>
+
+            <!-- Points Display -->
+            <div class="stats-grid" style="margin-bottom: 32px;">
+                <div class="stat-card yellow">
+                    <div class="stat-number" id="totalPoints">1,250</div>
+                    <div class="stat-label">Green Points</div>
+                </div>
+                <div class="stat-card purple">
+                    <div class="stat-number">Plant Master</div>
+                    <div class="stat-label">Current Level</div>
+                </div>
+            </div>
+
+            <!-- Add Entry Button -->
+            <div style="margin-bottom: 32px;">
+                <button class="btn btn-primary" id="addEntryBtn">
+                    <i class="fas fa-camera"></i> Add Journal Entry
+                </button>
+            </div>
+
+            <!-- Journal Timeline -->
+            <div class="journal-timeline" id="journalTimeline">
+                <div class="timeline-line"></div>
+                <!-- Journal entries will be populated here -->
+            </div>
+
+            <!-- Add Entry Modal -->
+            <div class="entry-modal" id="entryModal">
+                <div class="modal-content">
+                    <button class="modal-close" id="modalClose">&times;</button>
+                    <h2>📝 New Journal Entry</h2>
+                    <div class="entry-form">
+                        <div class="photo-upload" id="photoUpload">
+                            <div class="upload-placeholder">
+                                <i class="fas fa-camera"></i>
+                                <span>Add Photo</span>
+                            </div>
+                            <input type="file" id="photoInput" accept="image/*" hidden>
+                        </div>
+                        <textarea placeholder="What's happening in your garden today?" id="entryText"></textarea>
+                        <div class="entry-tags">
+                            <button class="tag-btn" data-tag="watering">💧 Watering</button>
+                            <button class="tag-btn" data-tag="growth">🌱 Growth</button>
+                            <button class="tag-btn" data-tag="harvest">🍅 Harvest</button>
+                            <button class="tag-btn" data-tag="problem">⚠️ Problem</button>
+                        </div>
+                        <div class="modal-actions">
+                            <button class="btn btn-secondary" id="cancelEntry">Cancel</button>
+                            <button class="btn btn-primary" id="saveEntry">Save Entry</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Confetti Container -->
+            <div class="confetti-container" id="confettiContainer"></div>
+        </main>
+
+        <!-- Mobile Navigation -->
+        <nav class="mobile-nav">
+            <div class="mobile-nav-grid">
+                <a href="index.html" class="mobile-nav-item">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="library.html" class="mobile-nav-item">
+                    <i class="fas fa-leaf"></i>
+                    <span>Library</span>
+                </a>
+                <a href="garden.html" class="mobile-nav-item">
+                    <i class="fas fa-seedling"></i>
+                    <span>Garden</span>
+                </a>
+                <a href="tasks.html" class="mobile-nav-item">
+                    <i class="fas fa-tasks"></i>
+                    <span>Tasks</span>
+                </a>
+                <a href="community.html" class="mobile-nav-item">
+                    <i class="fas fa-users"></i>
+                    <span>Community</span>
+                </a>
+                <a href="journal.html" class="mobile-nav-item active">
+                    <i class="fas fa-book"></i>
+                    <span>Journal</span>
+                </a>
+            </div>
+        </nav>
+
+        <!-- FAB -->
+        <button class="fab" id="fabAddEntry">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="journal.js"></script>
+</body>
+</html>
